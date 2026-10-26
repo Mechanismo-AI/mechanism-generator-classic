@@ -14,7 +14,7 @@ def test_packaged_training_assets_reuse_exact_public_transmission():
     assert set(profile["assets"]) == {"teacher", "warmstart_r22", "transmission"}
     for key in ("file", "sha256", "bytes", "source_sha256", "variant", "state_epoch"):
         assert profile["assets"]["transmission"][key] == transmission[key]
-    assert profile["assets"]["transmission"]["url"].endswith("/v0.1.0a2/transmission.safetensors")
+    assert profile["assets"]["transmission"]["url"] == models.manifest()["download_base"] + "/transmission.safetensors"
     assert profile["license"] == "Apache-2.0"
     assert profile["assets"]["teacher"]["state_epoch"] == 239
     assert profile["assets"]["warmstart_r22"]["state_epoch"] == 148
