@@ -23,7 +23,7 @@ Use a focused branch and pull request. Include the problem, resulting behavior,
 and checks performed. Keep model binaries, private paths, credentials, personal
 logs, and generated runs out of source commits. Share small reproducible examples
 using project-relative paths. The three public model exports are distributed as
-[release assets](https://github.com/Mechanismo-AI/mechanism-generator/releases).
+[release assets](https://github.com/Mechanismo-AI/mechanism-generator-classic/releases).
 Proposed model or dataset contributions need separate provenance and license
 review; include a link and description rather than attaching raw training assets
 to a result contribution.

@@ -75,7 +75,7 @@ def main():
                         "export_checks": {"exact_tensor_equality": True, "inference_cases": len(targets), "max_absolute_difference": float((before - after).abs().max())}}
         print(f"{role}: {path.stat().st_size} bytes; exact parameters and inference parity.")
     profile = {"version": "0.1.0a2", "license": "Apache-2.0", "format": "safetensors",
-               "download_base": "https://github.com/Mechanismo-AI/mechanism-generator/releases/download/v0.1.0a2",
+               "download_base": "https://github.com/Mechanismo-AI/mechanism-generator-classic/releases/download/v0.1.0a10.post1",
                "export_verification": {"device": "cpu", "torch": str(torch.__version__), "numpy": str(np.__version__), "seed": 9142026, "dtype": "float32"},
                "models": models}
     (args.output_directory / "models.json").write_text(json.dumps(profile, indent=2) + "\n", encoding="utf-8")

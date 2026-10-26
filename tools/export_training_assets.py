@@ -25,7 +25,7 @@ ORIGINALS = {
                       "source_sha256": "67d90a31d98d42d2f2d9b4bf877cb34a06dfa510d333327b4902524c300c8900",
                       "file": "warmstart-r22.safetensors", "variant": "V5.3-R2.2_ConstrainedTransmission", "state_epoch": 148},
 }
-RELEASE_URL = "https://github.com/Mechanismo-AI/mechanism-generator/releases/download/v0.1.0a5"
+RELEASE_URL = "https://github.com/Mechanismo-AI/mechanism-generator-classic/releases/download/v0.1.0a10.post1"
 
 
 def canonicalize_header(path: Path) -> None:

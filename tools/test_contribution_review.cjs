@@ -216,7 +216,7 @@ async function verifyReviewFlow() {
   const [opened, target, features] = ui.openings[0];
   const url = new URL(opened);
   assert.equal(url.origin, "https://github.com");
-  assert.equal(url.pathname, "/Mechanismo-AI/mechanism-generator/issues/new");
+  assert.equal(url.pathname, "/Mechanismo-AI/mechanism-generator-classic/issues/new");
   assert.deepEqual([...url.searchParams.keys()].sort(), ["bundle_digest", "template", "title"]);
   assert.equal(url.searchParams.get("template"), "contribution.yml");
   assert.equal(url.searchParams.get("title"), "Community contribution");

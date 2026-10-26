@@ -1,4 +1,19 @@
-# Mechanism Generator
+# Mechanism Generator (classic release)
+
+> **Frozen release.** This is the v0.1 research engine as it stood in October 2026
+> (release v0.1.0a10), republished so anyone can install it and design mechanisms on
+> their own computer. It is not maintained, and development continues privately.
+> The only changes from the original release are the download and repository links
+> and the version number (now 0.1.0a10.post1); see the [changelog](CHANGELOG.md).
+>
+> A note on the models: the three proposal models are the original published weights.
+> Later experiments found that the solver's refinement and its geometric starting
+> points do most of the work, and that learned starting points were no better than
+> random restarts in some tests. The `--position_geometry` option turns on the
+> geometric starts for position tasks.
+>
+> For an overview of the project and a browser demo, see
+> [mechanism-design-ml](https://github.com/Mechanismo-AI/mechanism-design-ml).
 
 Open tools for describing motion requirements and developing inspectable mechanism
 designs. The long-term aim is to help designers create purpose-built, synchronized
@@ -14,7 +29,18 @@ synchronization remain future work.
 
 ## Generate a mechanism
 
-After creating and activating a virtual environment, install from this checkout:
+You need Python 3.12 and Git. Download the code and create a virtual environment:
+
+```sh
+git clone https://github.com/Mechanismo-AI/mechanism-generator-classic
+cd mechanism-generator-classic
+python -m venv .venv
+```
+
+Activate it with `. .venv/bin/activate` on macOS or Linux, or
+`.\.venv\Scripts\Activate.ps1` in Windows PowerShell. Then install the engine,
+download the three model files (about 22 MB, checked against their SHA-256 hashes)
+and generate a mechanism:
 
 ```sh
 python -m pip install torch==2.13.0 --index-url https://download.pytorch.org/whl/cpu
@@ -144,7 +170,7 @@ broader evaluation support that development; released models remain ready to use
 See [CONTRIBUTING.md](CONTRIBUTING.md). Code, specification, schema, examples, and
 the three public model-weight exports are licensed under [Apache-2.0](LICENSE),
 copyright 2026 Mechanismo-AI contributors. Training datasets are not included.
-See [releases](https://github.com/Mechanismo-AI/mechanism-generator/releases) for
+See [releases](https://github.com/Mechanismo-AI/mechanism-generator-classic/releases) for
 versioned model assets and checksums.
 
 ## Optional geometric position starts

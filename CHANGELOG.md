@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.0a10.post1 — Classic re-publication
+
+Republish release v0.1.0a10 unchanged in behaviour as a frozen classic release in
+its own public repository. Model weights and training assets now download from this
+repository's `v0.1.0a10.post1` release; their SHA-256 hashes are unchanged.
+Repository, issue and release links point here. The `$id` strings inside the
+contribution schemas are identifiers only and keep their original values.
+No solver, model, schema or test logic changed.
+
+
 ## 0.1.0a10 — Adaptive panel search
 
 Add optional `--panel_position_adaptive`: retain the standard portfolio, try larger

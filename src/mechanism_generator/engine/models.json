@@ -2,7 +2,7 @@
   "version": "0.1.0a2",
   "license": "Apache-2.0",
   "format": "safetensors",
-  "download_base": "https://github.com/Mechanismo-AI/mechanism-generator/releases/download/v0.1.0a2",
+  "download_base": "https://github.com/Mechanismo-AI/mechanism-generator-classic/releases/download/v0.1.0a10.post1",
   "export_verification": {
     "device": "cpu",
     "torch": "2.13.0+cpu",

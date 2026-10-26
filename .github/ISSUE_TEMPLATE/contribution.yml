@@ -6,7 +6,7 @@ body:
     attributes:
       value: |
         Prepare and review your contribution locally before attaching it here.
-        See the [contribution guide](https://github.com/Mechanismo-AI/mechanism-generator/blob/main/docs/contributing-results.md).
+        See the [contribution guide](https://github.com/Mechanismo-AI/mechanism-generator-classic/blob/main/docs/contributing-results.md).
 
         Attach only `reviewed-contribution.json`, not the original run folder or local review files.
         GitHub uploads attachments immediately; attachments here are public even before you create the issue.

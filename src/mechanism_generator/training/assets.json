@@ -22,7 +22,7 @@
       "file": "teacher.safetensors",
       "variant": "V5.3-R2_GeometryFix",
       "state_epoch": 239,
-      "url": "https://github.com/Mechanismo-AI/mechanism-generator/releases/download/v0.1.0a5/teacher.safetensors",
+      "url": "https://github.com/Mechanismo-AI/mechanism-generator-classic/releases/download/v0.1.0a10.post1/teacher.safetensors",
       "sha256": "e9fbee3d6885a1f1c198e5b466464fc52db59caa3fbc9ac8d60807b89e456a9d",
       "bytes": 7386800,
       "parameters": 1846280,
@@ -39,7 +39,7 @@
       "file": "warmstart-r22.safetensors",
       "variant": "V5.3-R2.2_ConstrainedTransmission",
       "state_epoch": 148,
-      "url": "https://github.com/Mechanismo-AI/mechanism-generator/releases/download/v0.1.0a5/warmstart-r22.safetensors",
+      "url": "https://github.com/Mechanismo-AI/mechanism-generator-classic/releases/download/v0.1.0a10.post1/warmstart-r22.safetensors",
       "sha256": "7e36221fb8ffa97c5b5618618aa93f561087527bceb2cc1d74e60dce337dc6b5",
       "bytes": 7386816,
       "parameters": 1846280,
@@ -65,7 +65,7 @@
         "inference_cases": 128,
         "max_absolute_difference": 0.0
       },
-      "url": "https://github.com/Mechanismo-AI/mechanism-generator/releases/download/v0.1.0a2/transmission.safetensors"
+      "url": "https://github.com/Mechanismo-AI/mechanism-generator-classic/releases/download/v0.1.0a10.post1/transmission.safetensors"
     }
   }
 }

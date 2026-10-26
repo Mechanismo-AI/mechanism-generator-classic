@@ -326,7 +326,7 @@
         });
         byId("open-issue").addEventListener("click", () => {
           if (!hasPermissions() || outgoing !== lastDownloaded) return;
-          const url = new URL("https://github.com/Mechanismo-AI/mechanism-generator/issues/new");
+          const url = new URL("https://github.com/Mechanismo-AI/mechanism-generator-classic/issues/new");
           url.searchParams.set("template", "contribution.yml");
           url.searchParams.set("title", "Community contribution");
           url.searchParams.set("bundle_digest", fingerprint);
