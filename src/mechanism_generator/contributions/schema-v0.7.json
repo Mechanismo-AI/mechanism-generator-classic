@@ -1,0 +1,1829 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Mechanismo-AI/mechanism-generator/blob/main/src/mechanism_generator/contributions/schema.json",
+  "title": "Mechanism Generator community contribution 0.7",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "0.7"
+    },
+    "kind": {
+      "enum": [
+        "local",
+        "submission"
+      ]
+    },
+    "core": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "generator_version": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+[a-z0-9.]*$"
+        },
+        "engine": {
+          "const": "r2.5c"
+        },
+        "run_status": {
+          "enum": [
+            "completed",
+            "partial",
+            "unknown"
+          ]
+        },
+        "validation_status": {
+          "const": "unreviewed"
+        },
+        "tasks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "task_id": {
+                "type": "string",
+                "pattern": "^task-[0-9]{4,}$"
+              },
+              "candidate_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "path_acceptable_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "selection_eligible_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "engineering_acceptable_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "selected_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "orientation_required": {
+                "type": "boolean"
+              },
+              "orientation_acceptable_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "pose_acceptable_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "crank_direction": {
+                "enum": [
+                  "positive",
+                  "negative"
+                ]
+              },
+              "panel_required": {
+                "type": "boolean"
+              },
+              "panel_acceptable_count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "task_id",
+              "candidate_count",
+              "path_acceptable_count",
+              "selection_eligible_count",
+              "engineering_acceptable_count",
+              "selected_count",
+              "orientation_required",
+              "crank_direction",
+              "panel_required"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "orientation_required": {
+                      "const": true
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "orientation_acceptable_count",
+                    "pose_acceptable_count"
+                  ]
+                }
+              },
+              {
+                "if": {
+                  "properties": {
+                    "panel_required": {
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "panel_required"
+                  ]
+                },
+                "then": {
+                  "required": [
+                    "panel_acceptable_count"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "generator_version",
+        "engine",
+        "run_status",
+        "validation_status",
+        "tasks"
+      ]
+    },
+    "task": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "pattern": "^task-[0-9]{4,}$"
+          },
+          "target_values": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 6,
+            "maxItems": 6
+          },
+          "orientation_frame": {
+            "const": "coupler_A_to_B"
+          },
+          "target_orientations_deg": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "orientation_tolerances_deg": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "exclusiveMaximum": 180
+            },
+            "minItems": 3,
+            "maxItems": 3
+          },
+          "pose_initialization": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "method": {
+                "enum": [
+                  "three_pose_dyad_v1",
+                  "three_pose_dyad_v2"
+                ]
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "requested_samples": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "requested_seed_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 12
+              },
+              "attempted_samples": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "finite_dyads": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "within_search_bounds": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "full_cycle_robust_crank_shortest": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "branch_and_order_consistent": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "transmission_selection_floors": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "returned_seeds": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 12
+              },
+              "evaluated_seed_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 12
+              },
+              "refined_candidate_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 12
+              },
+              "generation_runtime_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "verification_runtime_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "refinement_runtime_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "source_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "nominal_samples": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 262144
+              },
+              "tolerance_samples": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 262144
+              },
+              "nominal_returned_seeds": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 6
+              },
+              "tolerance_returned_seeds": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 6
+              },
+              "panel_pivot_pass_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "panel_screened_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "panel_passing_count": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "method",
+              "enabled",
+              "requested_samples",
+              "requested_seed_count",
+              "attempted_samples",
+              "finite_dyads",
+              "within_search_bounds",
+              "full_cycle_robust_crank_shortest",
+              "branch_and_order_consistent",
+              "transmission_selection_floors",
+              "returned_seeds",
+              "evaluated_seed_count",
+              "refined_candidate_count",
+              "generation_runtime_seconds",
+              "verification_runtime_seconds",
+              "refinement_runtime_seconds",
+              "source_sha256"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "method": {
+                      "const": "three_pose_dyad_v2"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "nominal_samples",
+                    "tolerance_samples",
+                    "nominal_returned_seeds",
+                    "tolerance_returned_seeds"
+                  ]
+                }
+              }
+            ]
+          },
+          "crank_direction": {
+            "enum": [
+              "positive",
+              "negative"
+            ]
+          },
+          "panel": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "bounds": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "carrier_size": {
+                "type": "array",
+                "items": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "minItems": 2,
+                "maxItems": 2
+              },
+              "pivot_clearance": {
+                "type": "number",
+                "minimum": 0
+              },
+              "steps": {
+                "type": "integer",
+                "minimum": 361,
+                "maximum": 72001
+              },
+              "carrier_frame": {
+                "const": "coupler_A_to_B"
+              },
+              "method": {
+                "const": "sampled_full_cycle_panel_v1"
+              }
+            },
+            "required": [
+              "bounds",
+              "carrier_size",
+              "pivot_clearance",
+              "steps",
+              "carrier_frame",
+              "method"
+            ]
+          },
+          "position_initialization": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "method",
+              "enabled",
+              "status",
+              "replaced",
+              "attempts",
+              "source_sha256"
+            ],
+            "properties": {
+              "method": {
+                "const": "coupled_position_seed_v1"
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "status": {
+                "enum": [
+                  "disabled",
+                  "unsupported_task",
+                  "allocated",
+                  "unchanged"
+                ]
+              },
+              "replaced": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 4
+              },
+              "attempts": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 20000
+              },
+              "source_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "generation_seconds": {
+                "type": "number",
+                "minimum": 0
+              }
+            }
+          },
+          "panel_position_initialization": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "method": {
+                "const": "panel_position_free_angle_dyad_v1"
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "requested_samples": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "requested_seed_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 12
+              },
+              "attempted_samples": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "finite_dyads": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "within_search_bounds": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "full_cycle_robust_crank_shortest": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "branch_and_order_consistent": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "transmission_selection_floors": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "returned_seeds": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 12
+              },
+              "evaluated_seed_count": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 12
+              },
+              "generation_runtime_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "verification_runtime_seconds": {
+                "type": "number",
+                "minimum": 0
+              },
+              "source_sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              },
+              "panel_pivot_pass_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "panel_screened_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "panel_passing_count": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "status": {
+                "enum": [
+                  "disabled",
+                  "unsupported_task",
+                  "sampled"
+                ]
+              }
+            },
+            "required": [
+              "method",
+              "enabled",
+              "status",
+              "source_sha256"
+            ],
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "method": {
+                      "const": "three_pose_dyad_v2"
+                    }
+                  }
+                },
+                "then": {
+                  "required": [
+                    "nominal_samples",
+                    "tolerance_samples",
+                    "nominal_returned_seeds",
+                    "tolerance_returned_seeds"
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        "required": [
+          "task_id",
+          "target_values",
+          "crank_direction"
+        ]
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "task_id": {
+            "type": "string",
+            "pattern": "^task-[0-9]{4,}$"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "S_ratio": {
+                  "type": "number"
+                },
+                "absolute_mean_error_acceptable": {
+                  "type": "boolean"
+                },
+                "absolute_point_errors_acceptable": {
+                  "type": "boolean"
+                },
+                "accuracy_score": {
+                  "type": "number"
+                },
+                "acquired_error_1": {
+                  "type": "number"
+                },
+                "acquired_error_2": {
+                  "type": "number"
+                },
+                "acquired_error_3": {
+                  "type": "number"
+                },
+                "acquired_mean_error": {
+                  "type": "number"
+                },
+                "assembly_margin_ratio": {
+                  "type": "number"
+                },
+                "balanced_score": {
+                  "type": "number"
+                },
+                "bar_length": {
+                  "type": "number"
+                },
+                "bar_length_ratio": {
+                  "type": "number"
+                },
+                "base_angle": {
+                  "type": "number"
+                },
+                "base_x": {
+                  "type": "number"
+                },
+                "base_y": {
+                  "type": "number"
+                },
+                "branch_sign": {
+                  "type": "number"
+                },
+                "checkpoint_epoch": {
+                  "type": "number"
+                },
+                "compactness_acceptable": {
+                  "type": "boolean"
+                },
+                "compactness_penalty": {
+                  "type": "number"
+                },
+                "compactness_score": {
+                  "type": "number"
+                },
+                "crank_margin_min": {
+                  "type": "number"
+                },
+                "crank_margin_ratio": {
+                  "type": "number"
+                },
+                "engineering_acceptable": {
+                  "type": "boolean"
+                },
+                "error_1": {
+                  "type": "number"
+                },
+                "error_2": {
+                  "type": "number"
+                },
+                "error_3": {
+                  "type": "number"
+                },
+                "exact_mechanism_class": {
+                  "type": "boolean"
+                },
+                "follower_margin": {
+                  "type": "number"
+                },
+                "follower_margin_ratio": {
+                  "type": "number"
+                },
+                "follower_not_longest_enforced": {
+                  "type": "boolean"
+                },
+                "full_cycle_assembly": {
+                  "type": "boolean"
+                },
+                "full_cycle_assembly_violation": {
+                  "type": "number"
+                },
+                "global_angle_mean_deg": {
+                  "type": "number"
+                },
+                "global_angle_min_deg": {
+                  "type": "number"
+                },
+                "global_angle_softmin_deg": {
+                  "type": "number"
+                },
+                "global_below_floor_fraction": {
+                  "type": "number"
+                },
+                "global_below_target_fraction": {
+                  "type": "number"
+                },
+                "global_selection_floor_acceptable": {
+                  "type": "boolean"
+                },
+                "global_transmission_acceptable": {
+                  "type": "boolean"
+                },
+                "global_transmission_min_penalty": {
+                  "type": "number"
+                },
+                "global_transmission_penalty": {
+                  "type": "number"
+                },
+                "global_transmission_top_penalty": {
+                  "type": "number"
+                },
+                "grashof_margin": {
+                  "type": "number"
+                },
+                "grashof_margin_ratio": {
+                  "type": "number"
+                },
+                "grashof_ok": {
+                  "type": "boolean"
+                },
+                "grashof_violation": {
+                  "type": "number"
+                },
+                "initial_full_cycle_assembly": {
+                  "type": "boolean"
+                },
+                "initial_global_angle_min_deg": {
+                  "type": "number"
+                },
+                "initial_max_error": {
+                  "type": "number"
+                },
+                "initial_mean_error": {
+                  "type": "number"
+                },
+                "initial_target_angle_min_deg": {
+                  "type": "number"
+                },
+                "l1": {
+                  "type": "number"
+                },
+                "l2": {
+                  "type": "number"
+                },
+                "l3": {
+                  "type": "number"
+                },
+                "l4": {
+                  "type": "number"
+                },
+                "local_path_budget_feasible": {
+                  "type": "boolean"
+                },
+                "max_error": {
+                  "type": "number"
+                },
+                "max_error_improvement": {
+                  "type": "number"
+                },
+                "max_link_ratio": {
+                  "type": "number"
+                },
+                "mean_error": {
+                  "type": "number"
+                },
+                "mean_error_improvement": {
+                  "type": "number"
+                },
+                "mean_path_budget": {
+                  "type": "number"
+                },
+                "path_acceptable": {
+                  "type": "boolean"
+                },
+                "path_area_ratio": {
+                  "type": "number"
+                },
+                "path_budget_feasible": {
+                  "type": "boolean"
+                },
+                "perturbation_index": {
+                  "type": "number"
+                },
+                "phase_1_deg": {
+                  "type": "number"
+                },
+                "phase_1_rad": {
+                  "type": "number"
+                },
+                "phase_2_deg": {
+                  "type": "number"
+                },
+                "phase_2_rad": {
+                  "type": "number"
+                },
+                "phase_3_deg": {
+                  "type": "number"
+                },
+                "phase_3_rad": {
+                  "type": "number"
+                },
+                "physical_feasible": {
+                  "type": "boolean"
+                },
+                "point_budget_1": {
+                  "type": "number"
+                },
+                "point_budget_2": {
+                  "type": "number"
+                },
+                "point_budget_3": {
+                  "type": "number"
+                },
+                "profile_score": {
+                  "type": "number"
+                },
+                "robustness_acceptable": {
+                  "type": "boolean"
+                },
+                "robustness_penalty": {
+                  "type": "number"
+                },
+                "sampled_assembly_success": {
+                  "type": "number"
+                },
+                "selected_rank": {
+                  "type": "number"
+                },
+                "selection_eligible": {
+                  "type": "boolean"
+                },
+                "shared_mean_path_budget": {
+                  "type": "number"
+                },
+                "shared_path_budget_feasible": {
+                  "type": "boolean"
+                },
+                "shared_path_reference_error_1": {
+                  "type": "number"
+                },
+                "shared_path_reference_error_2": {
+                  "type": "number"
+                },
+                "shared_path_reference_error_3": {
+                  "type": "number"
+                },
+                "shared_path_reference_mean_error": {
+                  "type": "number"
+                },
+                "shared_point_budget_1": {
+                  "type": "number"
+                },
+                "shared_point_budget_2": {
+                  "type": "number"
+                },
+                "shared_point_budget_3": {
+                  "type": "number"
+                },
+                "sweep_area_ratio": {
+                  "type": "number"
+                },
+                "sweep_diagonal_ratio": {
+                  "type": "number"
+                },
+                "sweep_height_ratio": {
+                  "type": "number"
+                },
+                "sweep_radius_ratio": {
+                  "type": "number"
+                },
+                "sweep_width_ratio": {
+                  "type": "number"
+                },
+                "target_angle_1_deg": {
+                  "type": "number"
+                },
+                "target_angle_2_deg": {
+                  "type": "number"
+                },
+                "target_angle_3_deg": {
+                  "type": "number"
+                },
+                "target_angle_mean_deg": {
+                  "type": "number"
+                },
+                "target_angle_min_change_deg": {
+                  "type": "number"
+                },
+                "target_angle_min_deg": {
+                  "type": "number"
+                },
+                "target_angle_softmin_deg": {
+                  "type": "number"
+                },
+                "target_centroid_x": {
+                  "type": "number"
+                },
+                "target_centroid_y": {
+                  "type": "number"
+                },
+                "target_scale": {
+                  "type": "number"
+                },
+                "target_selection_floor_acceptable": {
+                  "type": "boolean"
+                },
+                "target_transmission_acceptable": {
+                  "type": "boolean"
+                },
+                "target_transmission_mean_penalty": {
+                  "type": "number"
+                },
+                "target_transmission_penalty": {
+                  "type": "number"
+                },
+                "target_transmission_worst_penalty": {
+                  "type": "number"
+                },
+                "total_link_ratio": {
+                  "type": "number"
+                },
+                "transmission_score": {
+                  "type": "number"
+                },
+                "candidate_id": {
+                  "type": "string",
+                  "pattern": "^candidate-[0-9]{4,}$"
+                },
+                "portfolio_parent_candidate_id": {
+                  "type": "string",
+                  "pattern": "^candidate-[0-9]{4,}$"
+                },
+                "shared_path_reference_candidate_id": {
+                  "type": "string",
+                  "pattern": "^candidate-[0-9]{4,}$"
+                },
+                "model_role": {
+                  "enum": [
+                    "balanced",
+                    "path",
+                    "transmission",
+                    "pose_geometry",
+                    "geometric_position",
+                    "panel_geometry"
+                  ]
+                },
+                "profile": {
+                  "enum": [
+                    "accuracy",
+                    "balanced",
+                    "transmission"
+                  ]
+                },
+                "portfolio_origin": {
+                  "enum": [
+                    "fixed",
+                    "variable",
+                    "bridge_trust",
+                    "bridge_release",
+                    "pose_seed",
+                    "pose_refined",
+                    "panel_position_seed"
+                  ]
+                },
+                "ground_link_mode": {
+                  "enum": [
+                    "fixed",
+                    "optimize"
+                  ]
+                },
+                "qualification_level": {
+                  "enum": [
+                    "not_physical",
+                    "physical_only_path_rejected",
+                    "path_acceptable_but_robustness_failed",
+                    "path_acceptable_but_compactness_failed",
+                    "path_acceptable_but_selection_floor_failed",
+                    "selection_acceptable",
+                    "engineering_acceptable",
+                    "not_evaluated",
+                    "path_acceptable_but_orientation_failed",
+                    "path_acceptable_but_panel_failed"
+                  ]
+                },
+                "orientation_required": {
+                  "type": "boolean"
+                },
+                "orientation_acceptable": {
+                  "type": "boolean"
+                },
+                "pose_acceptable": {
+                  "type": "boolean"
+                },
+                "orientation_frame": {
+                  "const": "coupler_A_to_B"
+                },
+                "max_orientation_error_deg": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 180
+                },
+                "mean_orientation_error_deg": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 180
+                },
+                "initial_max_orientation_error_deg": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 180
+                },
+                "target_orientation_1_deg": {
+                  "type": "number"
+                },
+                "orientation_tolerance_1_deg": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "exclusiveMaximum": 180
+                },
+                "matched_orientation_1_deg": {
+                  "type": "number"
+                },
+                "orientation_error_1_deg": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 180
+                },
+                "target_orientation_2_deg": {
+                  "type": "number"
+                },
+                "orientation_tolerance_2_deg": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "exclusiveMaximum": 180
+                },
+                "matched_orientation_2_deg": {
+                  "type": "number"
+                },
+                "orientation_error_2_deg": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 180
+                },
+                "target_orientation_3_deg": {
+                  "type": "number"
+                },
+                "orientation_tolerance_3_deg": {
+                  "type": "number",
+                  "exclusiveMinimum": 0,
+                  "exclusiveMaximum": 180
+                },
+                "matched_orientation_3_deg": {
+                  "type": "number"
+                },
+                "orientation_error_3_deg": {
+                  "type": "number",
+                  "minimum": 0,
+                  "maximum": 180
+                },
+                "proposal_source": {
+                  "enum": [
+                    "three_pose_dyad_v1",
+                    "three_pose_tolerance_dyad_v1",
+                    "panel_position_free_angle_dyad_v1"
+                  ]
+                },
+                "generator_sample_index": {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "crank_direction": {
+                  "enum": [
+                    "positive",
+                    "negative"
+                  ]
+                },
+                "panel_required": {
+                  "type": "boolean"
+                },
+                "panel_acceptable": {
+                  "type": "boolean"
+                },
+                "panel_geometry_valid": {
+                  "type": "boolean"
+                },
+                "panel_method": {
+                  "const": "sampled_full_cycle_panel_v1"
+                },
+                "panel_steps": {
+                  "type": "integer",
+                  "minimum": 361,
+                  "maximum": 72001
+                },
+                "panel_x_min": {
+                  "type": "number"
+                },
+                "panel_x_max": {
+                  "type": "number"
+                },
+                "panel_y_min": {
+                  "type": "number"
+                },
+                "panel_y_max": {
+                  "type": "number"
+                },
+                "carrier_width": {
+                  "type": "number"
+                },
+                "carrier_height": {
+                  "type": "number"
+                },
+                "panel_pivot_clearance_required": {
+                  "type": "number"
+                },
+                "panel_edge_clearance": {
+                  "type": "number"
+                },
+                "panel_pivot_clearance": {
+                  "type": "number"
+                },
+                "panel_envelope_x_min": {
+                  "type": "number"
+                },
+                "panel_envelope_x_max": {
+                  "type": "number"
+                },
+                "panel_envelope_y_min": {
+                  "type": "number"
+                },
+                "panel_envelope_y_max": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "candidate_id",
+                "crank_direction"
+              ],
+              "allOf": [
+                {
+                  "if": {
+                    "required": [
+                      "orientation_required"
+                    ],
+                    "properties": {
+                      "orientation_required": {
+                        "const": true
+                      }
+                    }
+                  },
+                  "then": {
+                    "required": [
+                      "orientation_frame",
+                      "orientation_acceptable",
+                      "pose_acceptable",
+                      "path_acceptable",
+                      "selection_eligible",
+                      "engineering_acceptable",
+                      "target_orientation_1_deg",
+                      "orientation_tolerance_1_deg",
+                      "target_orientation_2_deg",
+                      "orientation_tolerance_2_deg",
+                      "target_orientation_3_deg",
+                      "orientation_tolerance_3_deg"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "model_role"
+                        ],
+                        "properties": {
+                          "model_role": {
+                            "const": "pose_geometry"
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "portfolio_origin"
+                        ],
+                        "properties": {
+                          "portfolio_origin": {
+                            "enum": [
+                              "pose_seed",
+                              "pose_refined"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "proposal_source"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "generator_sample_index"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "model_role"
+                        ],
+                        "properties": {
+                          "model_role": {
+                            "const": "panel_geometry"
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "portfolio_origin"
+                        ],
+                        "properties": {
+                          "portfolio_origin": {
+                            "const": "panel_position_seed"
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "then": {
+                    "oneOf": [
+                      {
+                        "required": [
+                          "model_role",
+                          "portfolio_origin",
+                          "proposal_source",
+                          "generator_sample_index",
+                          "orientation_required"
+                        ],
+                        "properties": {
+                          "model_role": {
+                            "const": "pose_geometry"
+                          },
+                          "portfolio_origin": {
+                            "enum": [
+                              "pose_seed",
+                              "pose_refined"
+                            ]
+                          },
+                          "orientation_required": {
+                            "const": true
+                          },
+                          "proposal_source": {
+                            "enum": [
+                              "three_pose_dyad_v1",
+                              "three_pose_tolerance_dyad_v1"
+                            ]
+                          }
+                        }
+                      },
+                      {
+                        "required": [
+                          "model_role",
+                          "portfolio_origin",
+                          "proposal_source",
+                          "generator_sample_index",
+                          "panel_required"
+                        ],
+                        "properties": {
+                          "model_role": {
+                            "const": "panel_geometry"
+                          },
+                          "portfolio_origin": {
+                            "const": "panel_position_seed"
+                          },
+                          "orientation_required": {
+                            "const": false
+                          },
+                          "proposal_source": {
+                            "const": "panel_position_free_angle_dyad_v1"
+                          },
+                          "panel_required": {
+                            "const": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "panel_required": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "panel_required"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "panel_required",
+                      "panel_acceptable",
+                      "panel_geometry_valid",
+                      "panel_method",
+                      "panel_steps",
+                      "panel_x_min",
+                      "panel_x_max",
+                      "panel_y_min",
+                      "panel_y_max",
+                      "carrier_width",
+                      "carrier_height",
+                      "panel_pivot_clearance_required"
+                    ]
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "panel_geometry_valid": {
+                        "const": true
+                      }
+                    },
+                    "required": [
+                      "panel_geometry_valid"
+                    ]
+                  },
+                  "then": {
+                    "required": [
+                      "panel_required",
+                      "panel_acceptable",
+                      "panel_geometry_valid",
+                      "panel_method",
+                      "panel_steps",
+                      "panel_x_min",
+                      "panel_x_max",
+                      "panel_y_min",
+                      "panel_y_max",
+                      "carrier_width",
+                      "carrier_height",
+                      "panel_pivot_clearance_required",
+                      "panel_edge_clearance",
+                      "panel_pivot_clearance",
+                      "panel_envelope_x_min",
+                      "panel_envelope_x_max",
+                      "panel_envelope_y_min",
+                      "panel_envelope_y_max"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "task_id",
+          "items"
+        ]
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "engine_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "parent_engine_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "orientation_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "models": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "role": {
+                "enum": [
+                  "balanced",
+                  "path",
+                  "transmission"
+                ]
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[0-9a-f]{64}$"
+              }
+            },
+            "required": [
+              "role",
+              "sha256"
+            ]
+          }
+        },
+        "pose_initialization_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "panel_screening_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "position_initialization_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "panel_position_initialization_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "models"
+      ]
+    },
+    "settings": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "model_roles": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "balanced",
+              "path",
+              "transmission"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "profile_matrix": {
+          "enum": [
+            "paired",
+            "cross"
+          ]
+        },
+        "branches": {
+          "enum": [
+            "negative",
+            "positive",
+            "both"
+          ]
+        },
+        "phase_mode": {
+          "enum": [
+            "unordered",
+            "ordered"
+          ]
+        },
+        "perturbations_per_model": {
+          "type": "integer"
+        },
+        "parameter_noise": {
+          "type": "number"
+        },
+        "phase_noise_deg": {
+          "type": "number"
+        },
+        "ground_link_mode": {
+          "enum": [
+            "optimize",
+            "fixed"
+          ]
+        },
+        "fixed_ground_link_value": {
+          "type": "number"
+        },
+        "ground_link_min_ratio": {
+          "type": "number"
+        },
+        "ground_link_max_ratio": {
+          "type": "number"
+        },
+        "moving_link_min_ratio": {
+          "type": "number"
+        },
+        "moving_link_max_ratio": {
+          "type": "number"
+        },
+        "bar_length_max_ratio": {
+          "type": "number"
+        },
+        "base_search_radius_ratio": {
+          "type": "number"
+        },
+        "minimum_target_scale": {
+          "type": "number"
+        },
+        "adam_accuracy_steps": {
+          "type": "integer"
+        },
+        "adam_tradeoff_steps": {
+          "type": "integer"
+        },
+        "adam_lr": {
+          "type": "number"
+        },
+        "lbfgs_steps": {
+          "type": "integer"
+        },
+        "lbfgs_lr": {
+          "type": "number"
+        },
+        "grad_clip": {
+          "type": "number"
+        },
+        "seed_phase_steps": {
+          "type": "integer"
+        },
+        "optimization_global_steps": {
+          "type": "integer"
+        },
+        "verification_steps": {
+          "type": "integer"
+        },
+        "target_transmission_deg": {
+          "type": "number"
+        },
+        "global_transmission_floor_deg": {
+          "type": "number"
+        },
+        "worst_target_focus": {
+          "type": "number"
+        },
+        "worst_target_temperature": {
+          "type": "number"
+        },
+        "global_min_focus": {
+          "type": "number"
+        },
+        "global_min_temperature": {
+          "type": "number"
+        },
+        "global_top_fraction": {
+          "type": "number"
+        },
+        "class_margin": {
+          "type": "number"
+        },
+        "class_margin_ratio": {
+          "type": "number"
+        },
+        "assembly_margin_ratio": {
+          "type": "number"
+        },
+        "grashof_margin_ratio": {
+          "type": "number"
+        },
+        "enforce_follower_not_longest": {
+          "type": "boolean"
+        },
+        "assembly_weight": {
+          "type": "number"
+        },
+        "grashof_weight": {
+          "type": "number"
+        },
+        "class_weight": {
+          "type": "number"
+        },
+        "robustness_weight": {
+          "type": "number"
+        },
+        "target_validity_weight": {
+          "type": "number"
+        },
+        "drift_weight": {
+          "type": "number"
+        },
+        "compactness_weight": {
+          "type": "number"
+        },
+        "compactness_max_link_ratio": {
+          "type": "number"
+        },
+        "compactness_total_link_ratio": {
+          "type": "number"
+        },
+        "compactness_sweep_radius_ratio": {
+          "type": "number"
+        },
+        "compactness_sweep_area_ratio": {
+          "type": "number"
+        },
+        "compactness_bar_ratio": {
+          "type": "number"
+        },
+        "compactness_softness": {
+          "type": "number"
+        },
+        "ranking_compactness_weight": {
+          "type": "number"
+        },
+        "engineering_max_link_ratio": {
+          "type": "number"
+        },
+        "engineering_max_sweep_radius_ratio": {
+          "type": "number"
+        },
+        "max_mean_error": {
+          "type": "number"
+        },
+        "max_point_error": {
+          "type": "number"
+        },
+        "shared_mean_allowance": {
+          "type": "number"
+        },
+        "shared_point_allowance": {
+          "type": "number"
+        },
+        "minimum_target_transmission": {
+          "type": "number"
+        },
+        "minimum_global_transmission": {
+          "type": "number"
+        },
+        "strict_qualification": {
+          "type": "boolean"
+        },
+        "allow_unqualified_fallback": {
+          "type": "boolean"
+        },
+        "top_k": {
+          "type": "integer"
+        },
+        "dedup_parameter_threshold": {
+          "type": "number"
+        },
+        "dedup_curve_threshold": {
+          "type": "number"
+        },
+        "seed": {
+          "type": "integer"
+        },
+        "device": {
+          "enum": [
+            "auto",
+            "cpu",
+            "cuda"
+          ]
+        },
+        "dtype": {
+          "enum": [
+            "float32",
+            "float64"
+          ]
+        },
+        "quick": {
+          "type": "boolean"
+        },
+        "no_contribution_bundle": {
+          "type": "boolean"
+        },
+        "portfolio_fixed_seed_count": {
+          "type": "integer"
+        },
+        "portfolio_bridge_profile_matrix": {
+          "enum": [
+            "paired",
+            "cross"
+          ]
+        },
+        "portfolio_bridge_perturbations": {
+          "type": "integer"
+        },
+        "portfolio_bridge_parameter_noise": {
+          "type": "number"
+        },
+        "portfolio_bridge_phase_noise_deg": {
+          "type": "number"
+        },
+        "portfolio_l1_trust_fraction": {
+          "type": "number"
+        },
+        "portfolio_bridge_accuracy_steps": {
+          "type": "integer"
+        },
+        "portfolio_bridge_tradeoff_steps": {
+          "type": "integer"
+        },
+        "portfolio_bridge_lbfgs_steps": {
+          "type": "integer"
+        },
+        "portfolio_release_seed_count": {
+          "type": "integer"
+        },
+        "portfolio_skip_release": {
+          "type": "boolean"
+        },
+        "portfolio_release_accuracy_steps": {
+          "type": "integer"
+        },
+        "portfolio_release_tradeoff_steps": {
+          "type": "integer"
+        },
+        "portfolio_release_lbfgs_steps": {
+          "type": "integer"
+        },
+        "portfolio_guarantee_fixed_count": {
+          "type": "integer"
+        },
+        "portfolio_stage_top_k": {
+          "type": "integer"
+        },
+        "pose_dyad_samples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 262144
+        },
+        "pose_dyad_seed_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 6
+        },
+        "crank_direction": {
+          "enum": [
+            "positive",
+            "negative"
+          ]
+        },
+        "pose_tolerance_samples": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 262144
+        },
+        "panel_bounds": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "carrier_size": {
+          "type": "array",
+          "items": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "panel_pivot_clearance": {
+          "type": "number",
+          "minimum": 0
+        },
+        "panel_steps": {
+          "type": "integer",
+          "minimum": 361,
+          "maximum": 72001
+        },
+        "position_geometry": {
+          "type": "boolean"
+        },
+        "panel_position_geometry": {
+          "type": "boolean"
+        }
+      },
+      "required": []
+    },
+    "contributor": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pseudonym": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "application": {
+          "type": "string",
+          "maxLength": 4000
+        }
+      },
+      "required": [
+        "pseudonym",
+        "application"
+      ]
+    },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "terms_version": {
+          "const": "1"
+        },
+        "license": {
+          "const": "Apache-2.0"
+        },
+        "rights_confirmed": {
+          "const": true
+        },
+        "public_sharing_and_training": {
+          "const": true
+        }
+      },
+      "required": [
+        "terms_version",
+        "license",
+        "rights_confirmed",
+        "public_sharing_and_training"
+      ]
+    }
+  },
+  "required": [
+    "schema_version",
+    "kind",
+    "core"
+  ],
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "submission"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "contributor",
+          "consent"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "contributor"
+              ]
+            },
+            {
+              "required": [
+                "consent"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

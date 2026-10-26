@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=77", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mechanism-generator"
+version = "0.1.0a10"
+description = "Open motion-task validation and four-bar mechanism research synthesis"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{name = "Mechanismo-AI contributors"}]
+dependencies = ["PyYAML>=6.0.2,<7", "jsonschema>=4.23,<5"]
+
+[project.optional-dependencies]
+test = ["pytest>=8,<10", "build>=1.2,<2"]
+engine = ["torch>=2.6,<3", "numpy>=1.26,<3", "pandas>=2.2,<4", "matplotlib>=3.8,<4", "safetensors>=0.4.5,<1"]
+
+[project.urls]
+Repository = "https://github.com/Mechanismo-AI/mechanism-generator"
+Issues = "https://github.com/Mechanismo-AI/mechanism-generator/issues"
+
+[project.scripts]
+omts = "mechanism_generator.omts.cli:main"
+mechanism-generate = "mechanism_generator.engine.cli:main"
+mechanism-models = "mechanism_generator.engine.models:main"
+mechanism-contribute = "mechanism_generator.contributions.cli:main"
+mechanism-train = "mechanism_generator.training.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"mechanism_generator.omts" = ["schema.json", "r25c_capabilities.json", "runner_template.py.txt"]
+"mechanism_generator.engine" = ["models.json"]
+"mechanism_generator.contributions" = ["schema.json", "schema-v0.1.json", "schema-v0.2.json", "schema-v0.3.json", "schema-v0.4.json", "schema-v0.5.json", "schema-v0.6.json", "schema-v0.7.json", "review.html"]
+"mechanism_generator.training" = ["assets.json", "recipes.json", "source_provenance.json"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
